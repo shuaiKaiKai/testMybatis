@@ -9,4 +9,11 @@ import java.util.List;
 public interface UserMapper {
     List<User> findAll();
 
+    List<User> findByName(String userName);
+
+    Boolean updateById(User user);
+
+    int insert(User user);
+
+    void inserts(List<User> userList);
 }

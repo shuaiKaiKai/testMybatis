@@ -2,7 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="testmybatis.respository.UserMapper">
     <select id="findAll" resultType="testmybatis.model.User">
-        SELECT user.id AS id, user.user_name AS userName
+        SELECT
+            user.id        AS id,
+            user.user_name AS userName
         FROM test.user
     </select>
+    <select id="findByName" resultType="testmybatis.model.User">
+        SELECT user.id AS id, user.user_name AS userName
+        FROM test.user
+        WHERE 1=1
+        <if test="userName != null and userName != ''">
+            AND user.user_name LIKE concat('%', #{userName}, '%')
+        </if>
+    </select>
+    <insert id="insert" parameterType="testmybatis.model.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO test.user (user_name)
+        VALUES (#{userName})
+    </insert>
+    <insert id="inserts" parameterType="testmybatis.model.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO test.user (user_name)
+        VALUES
+        <foreach collection="list" item="user" separator=",">
+            (#{user.userName})
+        </foreach>
+    </insert>
+    <update id="updateById">
+        UPDATE test.user
+        SET
+        <if test="userName != null and userName != ''">
+            user_name = #{userName},
+        </if>
+        id = #{id}
+        WHERE id = #{id}
+    </update>
 </mapper>
