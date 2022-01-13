@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="testmybatis.respository.UserMapper">
+    <resultMap id="userMap" type="testmybatis.model.User">
+        <id property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+    </resultMap>
+    <resultMap id="userRoleMap" extends="userMap" type="testmybatis.model.User">
+        <result property="role.id" column="role_id"/>
+        <result property="role.roleName" column="role_name"/>
+    </resultMap>
     <select id="findAll" resultType="testmybatis.model.User">
         SELECT
             user.id        AS id,
@@ -14,6 +22,16 @@
         <if test="userName != null and userName != ''">
             AND user.user_name LIKE concat('%', #{userName}, '%')
         </if>
+    </select>
+    <select id="findUser" resultMap="userRoleMap">
+        SELECT
+            u.id,
+            u.user_name AS user_name,
+            r.id        AS role_id,
+            r.role_name AS role_name
+        FROM test.user u INNER JOIN test.user_role ur ON ur.user_id = u.id
+            INNER JOIN test.role r ON r.id = ur.role_id
+        WHERE u.id = #{id}
     </select>
     <insert id="insert" parameterType="testmybatis.model.User" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO test.user (user_name)

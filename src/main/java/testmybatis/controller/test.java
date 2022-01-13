@@ -52,4 +52,9 @@ public class test {
         userMapper.inserts(users);
         return users;
     }
+
+    @GetMapping("/test6")
+    public User test6(@RequestParam Long id) {
+        return userMapper.findUser(id);
+    }
 }

@@ -16,4 +16,6 @@ public interface UserMapper {
     int insert(User user);
 
     void inserts(List<User> userList);
+
+    User findUser(Long id);
 }
