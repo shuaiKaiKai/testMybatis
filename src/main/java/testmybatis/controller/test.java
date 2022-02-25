@@ -4,6 +4,7 @@ import javafx.application.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import testmybatis.configuration.ParamsConfig;
+import testmybatis.model.Enable;
 import testmybatis.model.User;
 import testmybatis.model.UserVo;
 import testmybatis.respository.UserMapper;
